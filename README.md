@@ -16,7 +16,7 @@ Abrimos el archivo de arranque de VNC:
 nano ~/.vnc/xstartup
 ```
 
-O lo generamos directamente con el siguiente contenido:
+Y borramos el contenido que haya ahí y copiamos esto directamente con el siguiente contenido:
 
 ```bash
 cat << 'EOF' > ~/.vnc/xstartup
