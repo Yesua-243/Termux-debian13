@@ -1,0 +1,84 @@
+# Parte 4 — Herramientas de desarrollo y VSCodium
+
+*Desglose de los comandos para instalar herramientas base, entornos de desarrollo, navegador y VSCodium.*
+
+## 1. Herramientas base y compilación
+
+```bash
+sudo apt update && sudo apt install -y build-essential git curl wget gnupg ca-certificates unzip tar
+```
+
+Actualiza la lista de paquetes e instala utilidades esenciales de compilación (`build-essential`) junto a herramientas clave de terminal (`git`, `curl`, `wget`, `gnupg`, `ca-certificates`, `unzip`, `tar`).
+
+## 2. Actualización general del sistema
+
+```bash
+sudo apt upgrade -y
+```
+
+Actualiza todos los paquetes instalados a sus últimas versiones de forma automática (`-y`).
+
+## 3. Entornos de desarrollo y editor de texto
+
+```bash
+sudo apt update && sudo apt install -y micro python3 python3-pip nodejs npm
+```
+
+Instala el editor `micro`, el entorno de Python 3 con su gestor de paquetes (`pip`), y Node.js junto con `npm` para desarrollo en JavaScript.
+
+## 4. Verificación de versiones
+
+```bash
+micro --version && python3 --version && node -v && npm -v
+```
+
+Ejecuta las comprobaciones en cadena para confirmar que las cuatro herramientas se instalaron correctamente mostrando sus versiones en consola.
+
+## 5. Instalación de navegador web
+
+```bash
+sudo apt update && sudo apt install -y firefox-esr
+firefox-esr --version
+```
+
+Instala Firefox ESR (versión de soporte extendido, más ligera para entornos PRoot) y verifica su versión.
+
+## 6. Descarga del binario de VSCodium
+
+```bash
+wget https://github.com/VSCodium/vscodium/releases/download/1.121.03429/VSCodium-linux-armhf-1.121.03429.tar.gz -O vscodium-gui.tar.gz
+```
+
+Descarga la versión compilada de VSCodium para arquitectura armhf (32 bits) desde el repositorio oficial de GitHub y la guarda como `vscodium-gui.tar.gz`.
+
+## 7. Descompresión e instalación en /opt
+
+```bash
+sudo mkdir -p /opt/vscodium && sudo tar -xzf vscodium-gui.tar.gz -C /opt/vscodium --strip-components=1 && rm vscodium-gui.tar.gz
+```
+
+Crea el directorio de destino, extrae el archivo comprimido dentro de `/opt/vscodium` ignorando la carpeta raíz interna y borra el archivo `.tar.gz` para ahorrar espacio.
+
+## 8. Inicio del servidor VNC
+
+```bash
+vncon
+```
+
+Ejecuta el alias de tu `.bashrc` para iniciar el servidor VNC en el display `:1` y levantar el entorno gráfico XFCE4 con DBus.
+
+## 9. Enlace simbólico global
+
+```bash
+sudo ln -sf /opt/vscodium/codium /usr/local/bin/codium
+```
+
+Crea un acceso directo global para poder invocar `codium` desde cualquier ubicación de la terminal.
+
+## 10. Ejecución de VSCodium con flags para PRoot
+
+```bash
+codium --no-sandbox --disable-gpu-sandbox --disable-dev-shm-usage &
+```
+
+Abre VSCodium en segundo plano desactivando el sandbox de Chromium y la memoria compartida `dev-shm`, necesario para evitar que las aplicaciones Electron colapsen en Android/Termux.
